@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import codecs
 from setuptools import setup
 
@@ -11,6 +13,7 @@ def read_long_description():
 setup(
     name="ssmanager-nopanel",
     version="0.0.1",
+    python_requires='~=3.0',
     description="A ssmanager simple http daemon without panel",
     author='fzinfz',
     author_email='fzinfz@gmail.com',
@@ -19,7 +22,7 @@ setup(
     install_requires=[],
     entry_points={
         'console_scripts':[
-            'ssmanager-nopanel=ssmanager_nopanel:main'
+            'ssmanager-nopanel-native=native:main'
         ],
     },
     classifiers=[
