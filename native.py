@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
-import requests
+import requests, json
 from ssmanager import Server
 from ssmanager.sspy import Manager
 
@@ -18,12 +18,17 @@ class MyHandler(BaseHTTPRequestHandler):
         msg = '<head><link rel="icon" href="data:,"></head>'
         if(token == self.path[1:]):
             self.wfile.write((msg + 'OK').encode())
-            print("updating")
+            print("updating from: " + url_json)
             try:
-                profiles = requests.get(url_json).json()
+                response = requests.get(url_json)
+                profiles = response.json() 
                 manager.update([Server(**p) for p in profiles])
             except requests.exceptions.ConnectionError:
                 print("Cannot connect to: " + url_json)
+                return
+            except json.decoder.JSONDecodeError:
+                print("json error, response: \n\n" + response.content.decode())
+                return
         else:
             self.wfile.write((msg + 'Error').encode())
 
