@@ -1,6 +1,11 @@
-NOT WORKING YET
 
 # Requirement
 ```
-pip3 install git+https://github.com/sorz/ssmanager.git
+pip install git+https://github.com/shadowsocks/shadowsocks.git@master
+pip install git+https://github.com/sorz/ssmanager.git
+```
+
+# Docker
+```
+docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py -h
 ```
