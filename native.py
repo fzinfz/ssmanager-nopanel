@@ -19,7 +19,7 @@ class MyHandler(BaseHTTPRequestHandler):
         if(token == self.path[1:]):
             self.wfile.write((msg + 'OK').encode())
             print("updating")
-            try；
+            try:
                 profiles = requests.get(url_json).json()
                 manager.update([Server(**p) for p in profiles])
             except requests.exceptions.ConnectionError:
