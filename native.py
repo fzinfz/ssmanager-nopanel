@@ -41,7 +41,6 @@ def start_web_server(address, port, my_token, my_url_json, my_ss_bin):
     url_json = my_url_json
 
     global manager
-
     manager = Manager(ss_bin = my_ss_bin)
     manager.start()
 
@@ -51,3 +50,4 @@ def start_web_server(address, port, my_token, my_url_json, my_ss_bin):
         httpd.serve_forever()
     except KeyboardInterrupt:
         manager.stop()
+        print("Manually kill ss servers if not exit properly. Using docker recommended.")

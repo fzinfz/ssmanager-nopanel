@@ -7,7 +7,8 @@ import subprocess
 
 def main():
 
-    bin_names = ['ss-server','ssserver']
+    # Auto detect ss binary location
+    bin_names = ['ss-server','ssserver']  # TODO: ss-server libev version can't work yet
     sys.path.append(os.getcwd())
     for cmd in bin_names:
         result = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
@@ -17,6 +18,7 @@ def main():
     if not 'path_binary' in locals():
         path_binary = None
 
+    # args parse
     parser = argparse.ArgumentParser(description='ssmanager web daemon', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('-a','--address',default='', nargs='?', help='listening address')
     parser.add_argument('-p','--port',default='8000', nargs='?', help='listening port')
@@ -25,6 +27,7 @@ def main():
     parser.add_argument('-b','--path-binary', default=path_binary, help='path for ss binary file')
     args = parser.parse_args()
 
+    # start web server
     print('ss location: ' + args.path_binary)
     print('get json file from: ' + args.url_json)
     print('visit URI to trigger updating servers: {0}:{1}/{2}'.format(args.address, args.port, args.web_hook_token))
