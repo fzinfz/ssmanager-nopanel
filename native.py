@@ -19,8 +19,11 @@ class MyHandler(BaseHTTPRequestHandler):
         if(token == self.path[1:]):
             self.wfile.write((msg + 'OK').encode())
             print("updating")
-            profiles = requests.get(url_json).json()
-            manager.update([Server(**p) for p in profiles])
+            try；
+                profiles = requests.get(url_json).json()
+                manager.update([Server(**p) for p in profiles])
+            except requests.exceptions.ConnectionError:
+                print("Cannot connect to": url_json)
         else:
             self.wfile.write((msg + 'Error').encode())
 
