@@ -42,4 +42,4 @@ def start_web_server(address, port, my_token, my_url_json, my_ss_bin):
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
-        pass
+        manager.stop()
