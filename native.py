@@ -23,7 +23,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 profiles = requests.get(url_json).json()
                 manager.update([Server(**p) for p in profiles])
             except requests.exceptions.ConnectionError:
-                print("Cannot connect to": url_json)
+                print("Cannot connect to: " + url_json)
         else:
             self.wfile.write((msg + 'Error').encode())
 
