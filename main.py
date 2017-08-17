@@ -27,7 +27,7 @@ def main():
 
     print('ss location: ' + args.path_binary)
     print('get json file from: ' + args.url_json)
-    print('visit URI to update servers: {0}:{1}/{2}'.format(args.address, args.port, args.web_hook_token))
+    print('visit URI to trigger updating servers: {0}:{1}/{2}'.format(args.address, args.port, args.web_hook_token))
     web.start_web_server(args.address, int(args.port), args.web_hook_token, args.url_json, args.path_binary)
 
 
