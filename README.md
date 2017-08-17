@@ -10,5 +10,5 @@ pip install git+https://github.com/sorz/ssmanager.git
 # Docker
 ```
 docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py -h  # Print Usage
-docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py     # Local Demo
+docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py     # Demo
 ```

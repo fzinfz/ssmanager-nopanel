@@ -7,6 +7,7 @@ import subprocess
 
 def main():
 
+    # change to your own url, or pass it from command line by `-u` switch
     url_json_default = "https://raw.githubusercontent.com/fzinfz/ssmanager-nopanel/master/servers.json"
 
     # Auto detect ss binary location
