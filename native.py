@@ -17,7 +17,7 @@ class MyHandler(BaseHTTPRequestHandler):
         self.end_headers()
         msg = '<head><link rel="icon" href="data:,"></head>'
         if(token == self.path[1:]):
-            self.wfile.write((msg + 'OK').encode())
+            self.wfile.write((msg + 'OK\n').encode())
             print("updating from: " + url_json)
             try:
                 response = requests.get(url_json)
@@ -30,7 +30,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 print("json error, response: \n\n" + response.content.decode())
                 return
         else:
-            self.wfile.write((msg + 'Error').encode())
+            self.wfile.write((msg + 'Error\n').encode())
 
 
 def start_web_server(address, port, my_token, my_url_json, my_ss_bin):
