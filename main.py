@@ -7,6 +7,8 @@ import subprocess
 
 def main():
 
+    url_json_default = "https://raw.githubusercontent.com/fzinfz/ssmanager-nopanel/master/servers.json"
+
     # Auto detect ss binary location
     bin_names = ['ss-server','ssserver']  # TODO: ss-server libev version can't work yet
     sys.path.append(os.getcwd())
@@ -23,7 +25,7 @@ def main():
     parser.add_argument('-a','--address',default='', nargs='?', help='listening address')
     parser.add_argument('-p','--port',default='8000', nargs='?', help='listening port')
     parser.add_argument('-t','--web-hook-token',default='update', nargs='?', help='token to trigger update()')
-    parser.add_argument('-u','--url-json', default='http://127.0.0.1/ss_servers.json', help='url for ss servers json file')
+    parser.add_argument('-u','--url-json', default=url_json_default, help='url for ss servers json file')
     parser.add_argument('-b','--path-binary', default=path_binary, help='path for ss binary file')
     args = parser.parse_args()
 

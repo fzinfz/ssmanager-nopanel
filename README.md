@@ -12,9 +12,3 @@ pip install git+https://github.com/sorz/ssmanager.git
 docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py -h  # Print Usage
 docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py     # Local Demo
 ```
-
-# Sample json file
-```
-[{"port": 8001, "password": "test123", "method": "chacha20"},
- {"port": 8002, "password": "123test", "method": "aes-256-cfb"}]
-```
