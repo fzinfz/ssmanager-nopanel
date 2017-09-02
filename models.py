@@ -13,7 +13,6 @@ class Connection:
 
         self.web_hook_token = kwargs['web_hook_token']
 
-
     def get_response(self):
         try:
             if self.user_password is None:

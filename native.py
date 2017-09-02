@@ -45,13 +45,19 @@ class WebServer:
             print(remote_json)
             WebServer.ssmanager.update([Server(**p) for p in remote_json])
         except:
-            print('update ssserver error: ' + sys.exc_info()[0])
+            print('update ssserver error:',end=" ")
+            print(sys.exc_info()[0])
 
     def start_server(self):
         server_address = (self.address, self.port)
         httpd = HTTPServer(server_address, MyHandler)
         try:
-            WebServer.ssmanager = Manager(ss_bin=self.ss_binary_path)
+            import datetime
+            t = datetime.datetime.utcnow().strftime("%s")
+
+            WebServer.ssmanager = Manager(ss_bin=self.ss_binary_path,
+                                          client_addr='/tmp/manager-client-' + t + '.sock',
+                                          manager_addr='/tmp/manager-' + t + '.sock')
             WebServer.ssmanager.start()
             WebServer.update_ss_servers()
             httpd.serve_forever()

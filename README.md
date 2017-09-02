@@ -13,6 +13,6 @@ docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py -h  # Print Usage
 
 # Demo
 docker run --name ss-mgr -d --net host fzinfz/ss:mgr-py ./main.py   # Start manager 
-curl http://localhost:8000/update       # start/update ss servers
 docker logs ss-mgr                      # check logs
+curl http://localhost:8000/update       # update ss servers
 ```
