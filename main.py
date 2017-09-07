@@ -37,28 +37,17 @@ def main():
     parser.add_argument('-p', '--port', default='8000', nargs='?', type=int, help='listening port')
 
     parser.add_argument('-u', '--url-json', default=url_json_default, nargs='?',
-                        help='url for ss servers json file, no auth support')
+                        help='url for ss servers json file, use `-c` for auth')
     parser.add_argument('-c', '--user-password', default=None, nargs='?', help='user:password for url_json')
     parser.add_argument('-t', '--web-hook-token', default='update', nargs='?', help='token to trigger update()')
 
+    parser.add_argument('-d', '--url-db', nargs='?', help='url for db')
     args = parser.parse_args()
 
     print(args)
     print('visit URI to trigger updating servers: {0}:{1}/{2}'.format(args.address, args.port, args.web_hook_token))
 
-    conn = models.Connection(
-        url_json=args.url_json,
-        user_password=args.user_password,
-        web_hook_token=args.web_hook_token
-    )
-
-    web = native.WebServer(
-        address=args.address,
-        port=args.port,
-        web_hook_token=args.web_hook_token,
-        ss_binary_path=args.path_binary,
-        conn= conn
-    )
+    web = native.WebServer(**args.__dict__)
     web.start_server()
 
 
