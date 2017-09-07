@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
-import native as web
 import os, sys
 import subprocess
-import models
-import native
 
 
 def get_default_binary_path():
@@ -41,14 +38,16 @@ def main():
     parser.add_argument('-c', '--user-password', default=None, nargs='?', help='user:password for url_json')
     parser.add_argument('-t', '--web-hook-token', default='update', nargs='?', help='token to trigger update()')
 
-    parser.add_argument('-d', '--url-db', nargs='?', help='url for db')
+    parser.add_argument('-d', '--url-db', nargs='?', help='db url for syncing traffic')
+    parser.add_argument('-i', '--interval-sync', default=10, nargs='?', help='sync traffic interval(seconds)')
     args = parser.parse_args()
 
     print(args)
     print('visit URI to trigger updating servers: {0}:{1}/{2}'.format(args.address, args.port, args.web_hook_token))
 
-    web = native.WebServer(**args.__dict__)
-    web.start_server()
+    import httpd_native as web
+    ws = web.WebServer(**args.__dict__)
+    ws.start_server()
 
 
 if __name__ == '__main__':

@@ -4,16 +4,20 @@ from ssmanager import Server
 from ssmanager.sspy import Manager
 import models
 import datetime
+import time
+import os
+
+import requests
 
 
 class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         uri = self.path[1:]
-        self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
-        self.end_headers()
 
         if (uri == WebServer.web_hook_token):
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
             self.wfile.write(('updating ss servers').encode())
             WebServer.update_ss_servers()
         else:
@@ -44,15 +48,22 @@ class WebServer:
 
     @staticmethod
     def update_stat():
-        url = WebServer.config["url_db"]
-        print(url)
+        url_influxdb = WebServer.config["url_db"]
+        print("db url: " + url_influxdb)
 
         while True:
-            s = WebServer.ssmanager.stat()
-            print(datetime.datetime.now(), end=": ")
-            print(s)
-            import time
-            time.sleep(3)
+            j = WebServer.ssmanager.stat()
+            import socket
+            hostname = socket.gethostname()
+            stats = ["ss,port={},host={} value={}".format(str(k), hostname, v) for k, v in j.items()]
+            try:
+                res = requests.post(url=url_influxdb,
+                                    data=bytes('\n'.join(stats), 'utf-8'),
+                                    headers={'Content-Type': 'application/octet-stream'})
+            except:
+                print(datetime.datetime.now(), end=": ")
+                print(res.content)
+            time.sleep(WebServer.config["interval_sync"])
 
     @staticmethod
     def start_ssserver():
