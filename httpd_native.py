@@ -62,7 +62,7 @@ class WebServer:
                                     headers={'Content-Type': 'application/octet-stream'})
             except:
                 print(datetime.datetime.now(), end=": ")
-                print(res.content)
+                print(res)
             time.sleep(WebServer.config["interval_sync"])
 
     @staticmethod
