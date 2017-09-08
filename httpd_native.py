@@ -1,12 +1,9 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import sys
 from ssmanager import Server
-from ssmanager.sspy import Manager
 import models
 import datetime
 import time
-import os
-
 import requests
 
 
@@ -69,9 +66,16 @@ class WebServer:
     def start_ssserver():
         t = datetime.datetime.utcnow().strftime("%s")
 
-        WebServer.ssmanager = Manager(ss_bin=WebServer.config["path_binary"],
-                                      client_addr='/tmp/manager-client-' + t + '.sock',
-                                      manager_addr='/tmp/manager-' + t + '.sock')
+        if 'ssserver' in WebServer.config["path_binary"]:
+            from ssmanager.sspy import Manager
+            WebServer.ssmanager = Manager(ss_bin=WebServer.config["path_binary"],
+                                          client_addr='/tmp/manager-client-' + t + '.sock',
+                                          manager_addr='/tmp/manager-' + t + '.sock')
+        if 'ss-server' in WebServer.config["path_binary"]:
+            from ssmanager.sslibev import Manager
+            WebServer.ssmanager = Manager(ss_bin=WebServer.config["path_binary"],
+                                          manager_addr='/tmp/manager-' + t + '.sock')
+
         WebServer.ssmanager.start()
         WebServer.update_ss_servers()
 

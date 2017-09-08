@@ -9,19 +9,20 @@ def get_default_binary_path():
     """
     Auto detect ss binary location
     """
-    path_binary = None
-    bin_names = ['ss-server', 'ssserver']  # TODO: ss-server libev version can't work yet
+    bin_names = ['ss-server', 'ssserver']
     sys.path.append(os.getcwd())
+    path_binary = None
     for cmd in bin_names:
         result = subprocess.run(['which', cmd], stdout=subprocess.PIPE)
         if result.returncode == 0:
             path_binary = result.stdout.decode().rstrip()
-            # print("detected " + cmd + ": " + path_binary)
+            print("detected " + cmd + ": " + path_binary)
             break
     return path_binary
 
 
 def main():
+    # this url is for demo
     # change to your own url, or pass it from command line by `-u` switch
     url_json_default = "https://raw.githubusercontent.com/fzinfz/ssmanager-nopanel/master/servers.json"
 
