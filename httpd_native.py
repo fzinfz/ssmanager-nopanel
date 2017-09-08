@@ -49,17 +49,19 @@ class WebServer:
         print("db url: " + url_influxdb)
 
         while True:
-            j = WebServer.ssmanager.stat()
             import socket
             hostname = socket.gethostname()
-            stats = ["ss,port={},host={} value={}".format(str(k), hostname, v) for k, v in j.items()]
+            stats = ["ss,port={},host={} value={}".format(str(k), hostname, v)
+                     for k, v in WebServer.ssmanager.stat().items()]
+
             try:
                 res = requests.post(url=url_influxdb,
                                     data=bytes('\n'.join(stats), 'utf-8'),
                                     headers={'Content-Type': 'application/octet-stream'})
             except:
                 print(datetime.datetime.now(), end=": ")
-                print(res)
+                print(sys.exc_info()[0])
+
             time.sleep(WebServer.config["interval_sync"])
 
     @staticmethod
