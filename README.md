@@ -2,7 +2,15 @@
 Web daemon for [ssmanager](https://github.com/sorz/ssmanager), which supports multi methods for different ports.
 Be able to log traffic to influxdb, which can be nicely viewed by grafana.
 
-# Demo
+# Install via pip3
+
+    pip install git+https://github.com/shadowsocks/shadowsocks.git@master
+    pip install git+https://github.com/sorz/ssmanager.git
+    pip install git+https://github.com/fzinfz/ssmanager-nopanel.git
+
+# Docker
+Replace `fzinfz/ss:mgr-py` to `fzinfz/ss:mgr-pyForLibev` for libev version.
+
 ## Install docker
     curl -fsSL get.docker.com | bash
 
@@ -10,8 +18,6 @@ Be able to log traffic to influxdb, which can be nicely viewed by grafana.
     docker run --rm -it --net host fzinfz/ss:mgr-py ./main.py -h
 
 ## Demo - no traffic logging
-Replace `fzinfz/ss:mgr-py` to `fzinfz/ss:mgr-pyForLibev` for libev version.
-
 ### Start manager
     docker run --name ss-mgr -d --net host fzinfz/ss:mgr-py ./main.py
 
@@ -55,4 +61,4 @@ This module works without a panel. It just read remote json file and write to in
 But there is a panel exists for management: [https://github.com/fzinfz/tsadmin](https://github.com/fzinfz/tsadmin)
 
 # Other notes
-Only Python3.6 tested. Other 3.x versions may work.
+Only Python3.6 tested. Other 3.x versions may work. 2.x not supported.

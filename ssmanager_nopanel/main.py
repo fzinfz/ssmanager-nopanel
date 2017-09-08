@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-import os, sys
+import os
 import subprocess
+import sys
 
 
 def get_default_binary_path():
@@ -24,7 +25,7 @@ def get_default_binary_path():
 def main():
     # this url is for demo
     # change to your own url, or pass it from command line by `-u` switch
-    url_json_default = "https://raw.githubusercontent.com/fzinfz/ssmanager-nopanel/master/servers.json"
+    url_json_default = "https://raw.githubusercontent.com/fzinfz/ssmanager-nopanel/master/servers-example.json"
 
     parser = argparse.ArgumentParser(description='ssmanager web daemon',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -46,7 +47,7 @@ def main():
     print(args)
     print('visit URI to trigger updating servers: {0}:{1}/{2}'.format(args.address, args.port, args.web_hook_token))
 
-    import httpd_native as web
+    from ssmanager_nopanel import httpd_native as web
     ws = web.WebServer(**args.__dict__)
     ws.start_server()
 

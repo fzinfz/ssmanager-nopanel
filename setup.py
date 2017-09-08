@@ -3,6 +3,7 @@
 import codecs
 from setuptools import setup
 
+
 def read_long_description():
     try:
         import pypandoc
@@ -10,19 +11,22 @@ def read_long_description():
     except(IOError, ImportError, RuntimeError):
         return ""
 
+
 setup(
     name="ssmanager-nopanel",
-    version="0.0.1",
-    python_requires='~=3.0',
-    description="A ssmanager simple http daemon without panel",
+    version="0.0.2",
+    python_requires='~=3.6',
+    description="ssmanager web daemon: support multi-methods & log traffic to influxdb",
     author='fzinfz',
     author_email='fzinfz@gmail.com',
     url='https://github.com/fzinfz/ssmanager-nopanel',
-    py_modules='ssmanager-nopanel.py',
-    install_requires=[],
+    packages=['ssmanager_nopanel'],
+    install_requires=[
+        'requests',
+    ],
     entry_points={
-        'console_scripts':[
-            'ssmanager-nopanel-native=native:main'
+        'console_scripts': [
+            'ssmanager-nopanel=ssmanager_nopanel.main:main'
         ],
     },
     classifiers=[
