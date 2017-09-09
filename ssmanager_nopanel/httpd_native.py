@@ -1,11 +1,10 @@
-import datetime
 import sys
 import time
+import datetime
+import requests
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
-import requests
 from ssmanager import Server
-
 from ssmanager_nopanel import models
 
 
@@ -13,7 +12,7 @@ class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         uri = self.path[1:]
 
-        if (uri == WebServer.web_hook_token):
+        if (uri == WebServer.config["web_hook_token"]):
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()

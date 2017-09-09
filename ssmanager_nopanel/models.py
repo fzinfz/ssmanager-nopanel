@@ -12,7 +12,7 @@ class Connection:
 
         self.web_hook_token = kwargs['web_hook_token']
 
-    def get_response(self):
+    def _response(self):
         try:
             if self.user_password is None:
                 response = requests.get(self.url_json)
@@ -20,14 +20,14 @@ class Connection:
                 response = requests.get(self.url_json, auth=(self.user, self.password))
             return response
         except:
-            print("get_response except: " + sys.exc_info()[0])
+            print("_response except: " + sys.exc_info()[0])
 
     def get_content(self):
-        return self.get_response().content
+        return self._response().content
 
     def get_json(self):
         try:
-            return self.get_response().json()
+            return self._response().json()
         except:
             print(self.get_content())
             return None

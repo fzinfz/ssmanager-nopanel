@@ -12,7 +12,9 @@ Be able to log traffic to influxdb, which can be nicely viewed in grafana.
 
 Note: Only Python 3.6 tested. Other 3.x versions may work. 2.x not supported.
 
-# Docker Demo with logging traffic to influxdb & displaying in grafana
+# Docker Demo
+Log traffic to influxdb & display in grafana
+
 ## Install docker
     curl -fsSL get.docker.com | bash
 
@@ -33,8 +35,8 @@ Note: Only Python 3.6 tested. Other 3.x versions may work. 2.x not supported.
 ## ssmanager
     export URL_influxdb=http://${IP_Private}:8086/write?db=tsadmin
 
-    docker run --name ss-mgr -d --net host fzinfz/ss:mgr-py -d $URL_influxdb  # ss Python version
-    docker run --name ss-mgr -d --net host fzinfz/ss:mgr-pyForLibev -d $URL_influxdb  # ss libev version
+    docker run --name ss-mgr-py -d --net host fzinfz/ss:mgr-py -d $URL_influxdb  # ss Python version
+    docker run --name ss-mgr-libev -d --net host fzinfz/ss:mgr-pyForLibev -d $URL_influxdb  # ss libev version
 
     docker logs ss-mgr # check logs
 

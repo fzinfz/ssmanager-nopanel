@@ -7,9 +7,8 @@ import sys
 
 
 def get_default_binary_path():
-    """
-    Auto detect ss binary location
-    """
+    """Auto detect ss binary location"""
+
     bin_names = ['ss-server', 'ssserver']
     sys.path.append(os.getcwd())
     path_binary = None
@@ -23,9 +22,8 @@ def get_default_binary_path():
 
 
 def main():
-    # this url is for demo
-    # change to your own url, or pass it from command line by `-u` switch
     url_json_default = "https://raw.githubusercontent.com/fzinfz/ssmanager-nopanel/master/servers-example.json"
+    # Change to your own url, or pass it from command line by `-u` switch.
 
     parser = argparse.ArgumentParser(description='ssmanager web daemon',
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
