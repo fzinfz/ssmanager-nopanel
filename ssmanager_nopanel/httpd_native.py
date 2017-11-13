@@ -41,7 +41,7 @@ class WebServer:
             print(remote_json)
             WebServer.ssmanager.update([Server(**p) for p in remote_json])
         except:
-            print('update ssserver error', end=": ")
+            print('update_ss_servers() error', end=": ")
             print(sys.exc_info()[0])
 
     @staticmethod
@@ -60,7 +60,7 @@ class WebServer:
                                     data=bytes('\n'.join(stats), 'utf-8'),
                                     headers={'Content-Type': 'application/octet-stream'})
             except:
-                print(datetime.datetime.now(), end=": ")
+                print(datetime.datetime.now(), end="   update_stat() error: ")
                 print(sys.exc_info()[0])
 
             time.sleep(WebServer.config["interval_sync"])

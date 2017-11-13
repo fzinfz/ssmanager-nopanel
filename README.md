@@ -1,6 +1,7 @@
 # Introduction
-Web daemon for [ssmanager](https://github.com/sorz/ssmanager), which supports multi methods for different ports.
-Be able to log traffic to influxdb, which can be nicely viewed in grafana.
+Web daemon for [ssmanager](https://github.com/sorz/ssmanager), which supports multi methods for different ports.  
+Instead of checking port lists periodically, you need to trigger web hook manually for port info updating.  
+You can enable logging traffic to InfluxDB, which can be nicely viewed in Grafana.
 
 # Install via pip3
 
@@ -18,10 +19,10 @@ Log traffic to influxdb & display in grafana
 ## Install docker
     curl -fsSL get.docker.com | bash
 
-## influxdb
+## InfluxDB
 
     export IP_Private=127.0.0.1
-    # Non-public IP suggested because no auth support for influxdb by default
+    # Non-public IP suggested because influxdb auth not enabled by default
 
     docker run --name influxdb \
         -p ${IP_Private}:8086:8086 \
@@ -33,6 +34,7 @@ Log traffic to influxdb & display in grafana
         --data-urlencode "q=CREATE DATABASE tsadmin"    # create db
 
 ## ssmanager
+
     export URL_influxdb=http://${IP_Private}:8086/write?db=tsadmin
 
     docker run --name ss-mgr-py -d --net host fzinfz/ss:mgr-py -d $URL_influxdb  # ss Python version
@@ -40,7 +42,7 @@ Log traffic to influxdb & display in grafana
 
     docker logs ss-mgr # check logs
 
-## check influxdb
+## Check InfluxDB
 
     curl -G "http://${IP_Private}:8086/query?db=tsadmin&pretty=true" \
         --data-urlencode "q=SELECT * FROM ss GROUP BY * ORDER BY time DESC LIMIT 1"  # query latest traffic
@@ -57,7 +59,7 @@ Log traffic to influxdb & display in grafana
     SELECT "value" FROM "ss" GROUP BY port
 
 ## Trigger config update
-    curl http://server_ip:8000/update
+    curl http://localhost:8000/update  # replace `localhost` to your own remote address
 
 # Panel
 This module works without a panel. It just read remote json file and write to influxdb.
