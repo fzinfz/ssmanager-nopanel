@@ -11,6 +11,7 @@ from ssmanager_nopanel import models
 class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         uri = self.path[1:]
+        print("uri: " + uri)
 
         if (uri == WebServer.config["web_hook_token"]):
             self.send_response(200)
@@ -25,6 +26,7 @@ class MyHandler(BaseHTTPRequestHandler):
 class WebServer:
     ssmanager = None
     config = None
+    stats_last = None
 
     def __init__(self, **kwargs):
         WebServer.config = kwargs
@@ -48,36 +50,55 @@ class WebServer:
     def update_stat():
         url_influxdb = WebServer.config["url_db"]
         print("db url: " + url_influxdb)
+        verbose = True if WebServer.config["verbose"] > 0 else False;
 
         while True:
             import socket
             hostname = socket.gethostname()
-            stats = ["ss,port={},host={} value={}".format(str(k), hostname, v)
-                     for k, v in WebServer.ssmanager.stat().items()]
+            if WebServer.ssmanager is None:
+                print("ssmanager None, retrying...")
+                time.sleep(5)
+                continue
 
-            try:
-                res = requests.post(url=url_influxdb,
-                                    data=bytes('\n'.join(stats), 'utf-8'),
-                                    headers={'Content-Type': 'application/octet-stream'})
-            except:
-                print(datetime.datetime.now(), end="   update_stat() error: ")
-                print(sys.exc_info()[0])
+            stats = [
+                        "ss,port={},host={} value={}".format(str(k), hostname, v)
+                        for k, v in WebServer.ssmanager.stat().items()
+                    ]
 
-            time.sleep(WebServer.config["interval_sync"])
+            if stats != WebServer.stats_last:
+                print(datetime.datetime.now(), end=" updating stat: ")
+                if verbose: print(stats)
+                WebServer.stats_last = stats
+
+                try:
+                    res = requests.post(url=url_influxdb,
+                                        data=bytes('\n'.join(stats), 'utf-8'),
+                                        headers={'Content-Type': 'application/octet-stream'})
+                except:
+                    print(datetime.datetime.now(), end=" update_stat() error: ")
+                    print(sys.exc_info()[0])
+
+            else:
+                if verbose: print("=", end="")
+
+            time.sleep(int(WebServer.config["interval_sync"]))
 
     @staticmethod
     def start_ssserver():
         t = datetime.datetime.utcnow().strftime("%s")
+        verbose = True if WebServer.config["verbose"] > 1 else False;
 
         if 'ssserver' in WebServer.config["path_binary"]:
             from ssmanager.sspy import Manager
             WebServer.ssmanager = Manager(ss_bin=WebServer.config["path_binary"],
                                           client_addr='/tmp/manager-client-' + t + '.sock',
-                                          manager_addr='/tmp/manager-' + t + '.sock')
+                                          manager_addr='/tmp/manager-' + t + '.sock',
+                                          print_ss_log=verbose)
         if 'ss-server' in WebServer.config["path_binary"]:
             from ssmanager.sslibev import Manager
             WebServer.ssmanager = Manager(ss_bin=WebServer.config["path_binary"],
-                                          manager_addr='/tmp/manager-' + t + '.sock')
+                                          manager_addr='/tmp/manager-' + t + '.sock',
+                                          print_ss_log=verbose)
 
         WebServer.ssmanager.start()
         WebServer.update_ss_servers()
