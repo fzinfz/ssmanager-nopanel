@@ -14,7 +14,7 @@ def read_long_description():
 
 setup(
     name="ssmanager-nopanel",
-    version="0.0.4",
+    version="0.0.5",
     python_requires='>=3',
     description="ssmanager web daemon: support multi-methods & log traffic to influxdb",
     author='fzinfz',

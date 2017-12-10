@@ -33,6 +33,7 @@ class WebServer:
 
     @staticmethod
     def update_ss_servers():
+        print("Port list", end=": ")
         try:
             conn = models.Connection(
                 url_json=WebServer.config["url_json"],
@@ -50,13 +51,13 @@ class WebServer:
     def update_stat():
         url_influxdb = WebServer.config["url_db"]
         print("db url: " + url_influxdb)
-        verbose = True if WebServer.config["verbose"] > 0 else False;
+        verbose = True if WebServer.config["verbose"] and WebServer.config["verbose"] > 0 else False;
 
         while True:
             import socket
             hostname = socket.gethostname()
             if WebServer.ssmanager is None:
-                print("ssmanager None, retrying...")
+                print("ssmanager = None, retrying...")
                 time.sleep(5)
                 continue
 
@@ -86,7 +87,7 @@ class WebServer:
     @staticmethod
     def start_ssserver():
         t = datetime.datetime.utcnow().strftime("%s")
-        verbose = True if WebServer.config["verbose"] > 1 else False;
+        verbose = True if WebServer.config["verbose"] and WebServer.config["verbose"] > 1 else False;
 
         if 'ssserver' in WebServer.config["path_binary"]:
             from ssmanager.sspy import Manager
