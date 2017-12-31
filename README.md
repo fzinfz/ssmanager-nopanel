@@ -36,10 +36,7 @@ Log traffic to influxdb & display in grafana
 ## ssmanager
 
     export URL_influxdb=http://${IP_Private}:8086/write?db=tsadmin
-
-    docker run --name ss-mgr-py    -d --net host fzinfz/ss:mgr-py    -d $URL_influxdb  # ss Python version
-    docker run --name ss-mgr-libev -d --net host fzinfz/ss:mgr-libev -d $URL_influxdb  # ss Libev version
-
+    docker run --name ss-mgr -d --net host fzinfz/ss:mgr -d $URL_influxdb 
     docker logs ss-mgr # check logs
 
 ## Check InfluxDB
