@@ -67,8 +67,9 @@ class WebServer:
                     ]
 
             if stats != WebServer.stats_last:
-                print(datetime.datetime.now(), end=" updating stat: ")
-                if verbose: print(stats)
+                if verbose:
+                    print(datetime.datetime.now(), end=" updating stat: ")
+                    print(stats)
                 WebServer.stats_last = stats
 
                 try:

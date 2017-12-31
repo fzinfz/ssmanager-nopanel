@@ -40,7 +40,7 @@ def main():
 
     parser.add_argument('-d', '--url-db', nargs='?', help='db url for syncing traffic')
     parser.add_argument('-i', '--interval-sync', default=10, nargs='?', help='sync traffic interval(seconds)')
-    parser.add_argument('--verbose', '-v', action='count',help="-v: traffic log; -vv: connections also")
+    parser.add_argument('--verbose', '-v', action='count', help="-v: traffic log; -vv: connections also")
 
     args = parser.parse_args()
 
